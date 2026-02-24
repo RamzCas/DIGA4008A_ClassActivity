@@ -18,14 +18,8 @@ public class P2script : MonoBehaviour
     private Vector2 lookinput;
     private Vector2 moveinput;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
+    private Gamepad Gamepad;
+    
     void Update()
     {
         float yaw = lookinput.x * Rotation * Time.deltaTime;
@@ -33,6 +27,18 @@ public class P2script : MonoBehaviour
 
         Vector3 move3 = new Vector3(moveinput.x, 0f, moveinput.y) * Movespeed * Time.deltaTime;
         transform.position += move3;
+
+
+        if (Shield.activeSelf)
+        {
+            Debug.Log("Shield");
+            Gamepad.SetMotorSpeeds(0.1f, 0.3f);
+        }
+
+        if (!Shield.activeSelf)
+        {
+            Gamepad.SetMotorSpeeds(0.0f, 0.0f);
+        }
     }
 
     public void OnMovement(InputAction.CallbackContext context)
@@ -56,6 +62,9 @@ public class P2script : MonoBehaviour
     {
         isShielding = context.ReadValueAsButton();
         Shield.SetActive(isShielding);
+        Gamepad = Gamepad.current;
+
+       
     }
 
     
