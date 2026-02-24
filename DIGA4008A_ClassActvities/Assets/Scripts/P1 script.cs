@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem.Haptics;
+//using UnityEngine.InputSystem.iOS;
 
 public class P1script : MonoBehaviour
 {
@@ -13,8 +15,15 @@ public class P1script : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform FirePoint;
     [SerializeField] private float projectileSpeed = 12;
+    [SerializeField] private bool Shot;
+
+    
+    //private InputDevice InputDevice;
     private Vector2 lookinput;
     private Vector2 moveinput;
+    [SerializeField] private float Timez;
+
+    private Gamepad Gamepad;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,6 +40,20 @@ public class P1script : MonoBehaviour
 
         Vector3 move3 = new Vector3(moveinput.x, 0f, moveinput.y) * Movespeed * Time.deltaTime;
         transform.position += move3;
+
+        if(Shot) 
+        {
+            Debug.Log("bullet");
+            Timez += Time.deltaTime;
+           
+        }
+
+        if(Timez > 1.5f) 
+        {
+            Gamepad.SetMotorSpeeds(0.0f, 0.0f);
+            Shot = false;
+            Timez = 0f;
+        }
     }
 
     public void OnMovement(InputAction.CallbackContext context)
@@ -49,6 +72,25 @@ public class P1script : MonoBehaviour
         if (!context.performed) return;
         transform.position += Vector3.up * Jumpstep;
     }
+
+    public void OnShoot(InputAction.CallbackContext context) 
+    {
+        if(!context.performed) return;
+
+        var proj = Instantiate(projectilePrefab, FirePoint.position, FirePoint.rotation);
+        proj.GetComponent<Rigidbody>().linearVelocity = FirePoint.forward * projectileSpeed;
+        Shot = true;
+        Timez = 0f;
+        //InputDevice = context.control.device;
+        
+        Gamepad = Gamepad.current;
+        Gamepad.SetMotorSpeeds(0.3f, 0.5f);
+        
+
+    }
+
+
+
 }
 
     
