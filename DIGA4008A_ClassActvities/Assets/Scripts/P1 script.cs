@@ -43,12 +43,12 @@ public class P1script : MonoBehaviour
 
         if(Shot) 
         {
-            Debug.Log("bullet");
+            //Debug.Log("bullet");
             Timez += Time.deltaTime;
            
         }
 
-        if(Timez > 1.5f) 
+        if(Timez > 0.5f) 
         {
             Gamepad.SetMotorSpeeds(0.0f, 0.0f);
             Shot = false;
