@@ -84,7 +84,7 @@ public class P1script : MonoBehaviour
         //InputDevice = context.control.device;
         
         Gamepad = Gamepad.current;
-        Gamepad.SetMotorSpeeds(0.3f, 0.5f);
+        Gamepad.SetMotorSpeeds(0.3f,0.5f);
         
 
     }
