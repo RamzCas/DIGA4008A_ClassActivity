@@ -17,8 +17,9 @@ public class P2script : MonoBehaviour
 
     private Vector2 lookinput;
     private Vector2 moveinput;
-
+    
     private Gamepad Gamepad;
+    //private InputDevice inputDevice;
     
     void Update()
     {
@@ -28,16 +29,15 @@ public class P2script : MonoBehaviour
         Vector3 move3 = new Vector3(moveinput.x, 0f, moveinput.y) * Movespeed * Time.deltaTime;
         transform.position += move3;
 
-
         if (Shield.activeSelf)
         {
             Debug.Log("Shield");
-            Gamepad.SetMotorSpeeds(0.1f, 0.3f);
+            Gamepad.current.SetMotorSpeeds(0.1f, 0.3f);
         }
 
         if (!Shield.activeSelf)
         {
-            Gamepad.SetMotorSpeeds(0.0f, 0.0f);
+            Gamepad.current.ResetHaptics();
         }
     }
 
