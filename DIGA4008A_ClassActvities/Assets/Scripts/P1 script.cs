@@ -88,30 +88,36 @@ public class P1script : MonoBehaviour
         Shot = true;
         Timez = 0f;
         //InputDevice = context.control.device;
-        
-        Gamepad = Gamepad.current;
 
-        if (Gamepad is DualShockGamepad) 
+        //Gamepad = Gamepad.current;
+        var Controller = context.control.device;
+
+        if (Controller is Gamepad pad) 
         {
-            //Debug.Log("PS5 Controller");
-            Debug.Log(Gamepad.displayName);
-            Gamepad.SetMotorSpeeds(0.3f, 0.5f);
-        }
+            Gamepad = pad;
 
-        if (Gamepad is XInputController) 
-        {
-            //Debug.Log("Xbox Controller");
-            Debug.Log(Gamepad.displayName);
-            Gamepad.SetMotorSpeeds(0.4f, 0.7f);
-        }
-        
-        
-        
+            if (pad is DualSenseGamepad)
+            {
+                //PS5 Controller
+                Debug.Log(Gamepad.displayName);
+                pad.SetMotorSpeeds(0.3f, 0.5f);
+            }
 
+            if (pad is XInputController)
+            {
+                //Xbox Controller
+                Debug.Log(Gamepad.displayName);
+                pad.SetMotorSpeeds(0.4f, 0.7f);
+            }
+
+            if (pad is DualShockGamepad)
+            {
+                //PS4 Controller
+                Debug.Log(Gamepad.displayName);
+                pad.SetMotorSpeeds(0.5f, 0.7f);
+            }
+        } 
     }
-
-
-
 }
 
     
