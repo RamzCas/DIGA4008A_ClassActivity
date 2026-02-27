@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 //using UnityEngine.InputSystem.Haptics;
 //using UnityEngine.InputSystem.iOS;
+using UnityEngine.InputSystem.XInput;
+using UnityEngine.InputSystem.DualShock;
 
 public class P1script : MonoBehaviour
 {
@@ -24,20 +26,18 @@ public class P1script : MonoBehaviour
     [SerializeField] private float Timez;
 
     private Gamepad Gamepad;
+    private PlayerInput PlayerControler;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
-
+        PlayerControler= GetComponent<PlayerInput>();
     }
-
-    // Update is called once per frame
     void Update()
     {
         float yaw = lookinput.x * Rotation * Time.deltaTime;
         transform.Rotate(0f, yaw, 0f, Space.World);
-
+        
         Vector3 move3 = new Vector3(moveinput.x, 0f, moveinput.y) * Movespeed * Time.deltaTime;
         transform.position += move3;
 
@@ -54,6 +54,12 @@ public class P1script : MonoBehaviour
             Shot = false;
             Timez = 0f;
         }
+
+
+       /* foreach(var device in PlayerControler.devices) 
+        {
+            Debug.Log("Current Device" + device.displayName);
+        }*/
     }
 
     public void OnMovement(InputAction.CallbackContext context)
@@ -84,7 +90,20 @@ public class P1script : MonoBehaviour
         //InputDevice = context.control.device;
         
         Gamepad = Gamepad.current;
-        Gamepad.SetMotorSpeeds(0.3f,0.5f);
+
+        if (Gamepad is DualShockGamepad) 
+        {
+            Debug.Log("PS5 Controller");
+            Gamepad.SetMotorSpeeds(0.3f, 0.5f);
+        }
+
+        if (Gamepad is XInputController) 
+        {
+            Debug.Log("Xbox Controller");
+            Gamepad.SetMotorSpeeds(0.4f, 0.7f);
+        }
+        
+        
         
 
     }
