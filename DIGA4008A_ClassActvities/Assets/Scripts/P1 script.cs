@@ -93,13 +93,15 @@ public class P1script : MonoBehaviour
 
         if (Gamepad is DualShockGamepad) 
         {
-            Debug.Log("PS5 Controller");
+            //Debug.Log("PS5 Controller");
+            Debug.Log(Gamepad.displayName);
             Gamepad.SetMotorSpeeds(0.3f, 0.5f);
         }
 
         if (Gamepad is XInputController) 
         {
-            Debug.Log("Xbox Controller");
+            //Debug.Log("Xbox Controller");
+            Debug.Log(Gamepad.displayName);
             Gamepad.SetMotorSpeeds(0.4f, 0.7f);
         }
         
